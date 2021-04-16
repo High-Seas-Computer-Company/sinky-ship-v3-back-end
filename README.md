@@ -26,4 +26,4 @@ A npm library that allows a user to play a game of battleship against a computer
 
 ## DOM
 
-![image](/assets/Sinky_Ship_DOM.jpg)
+![image](/assets/sinkyShipDomV2.png)

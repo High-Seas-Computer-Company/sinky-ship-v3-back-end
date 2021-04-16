@@ -41,7 +41,7 @@
 
 ### Data Flow
 
-![image](/assets/sinkyShipDomV2.jpg)
+![image](/assets/sinkyShipDomV2.png)
 
 ## Non-Functional Requirements
 
