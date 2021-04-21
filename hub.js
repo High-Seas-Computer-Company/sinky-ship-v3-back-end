@@ -6,11 +6,15 @@ const io = socketio(process.env.PORT);
 
 const game = require('./src/server/game.js');
 const hub = require('./src/server/helpers/server-helpers.js');
-const sinkyShip = io.of('/sinky-ship');
+const sinkyShip = io.of('/');
 
 
 io.on('connection', socket => {
   console.log('New connection created : ' + socket.id);
+
+  socket.on('new-game', () => {
+    console.log('heard new game in io');
+  });
 });
 
 sinkyShip.on('connection', (socket) => {
@@ -18,6 +22,7 @@ sinkyShip.on('connection', (socket) => {
   
 
   socket.on('new-game', () => {
+    console.log('just heard new game');
     const ships = hub.createShips();
     let payload = new game.GameObject();
     payload.playerBoard = new game.Normal();
@@ -30,7 +35,8 @@ sinkyShip.on('connection', (socket) => {
     ships.forEach(ship => {
       payload[ship.name] = ship;
     });
-    socket.emit('game-setup1', payload);
+    // socket.emit('game-setup1', payload);
+    socket.emit('guess', payload);
   });
 
   socket.on('setup-complete1', (payload) => {
@@ -54,6 +60,7 @@ sinkyShip.on('connection', (socket) => {
   });
 
   socket.on('response', (payload) => {
+    console.log('inside response', payload);
     const guess = hub.validateComputerGuess();
     let hitOrMiss = hub.checkBoard(payload.playerBoard, guess);
     payload.computerGuess = hitOrMiss.status;
