@@ -22,7 +22,7 @@ sinkyShip.on('connection', (socket) => {
 
 
   socket.on('new-game', () => {
-    console.log('just heard new game');
+    // console.log('just heard new game');
     const ships = hub.createShips();
     const playerships = hub.createShips();
     let payload = new game.GameObject();
@@ -66,7 +66,7 @@ sinkyShip.on('connection', (socket) => {
   // });
 
   socket.on('response', (payload) => {
-    console.log('inside response', payload);
+    // console.log('inside response', payload);
     const guess = hub.validateComputerGuess();
     let hitOrMiss = hub.checkBoard(payload.playerBoard, guess);
     payload.computerGuess = hitOrMiss.status;
@@ -75,7 +75,7 @@ sinkyShip.on('connection', (socket) => {
       socket.emit('game-over', payload);
     }
     if (hub.winChecker(payload.computerBoard.size)) {
-      console.log('Player win condition');
+      // console.log('Player win condition');
       payload.winner = 'Player 1';
       socket.emit('game-over', payload);
     } 
