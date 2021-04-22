@@ -28,6 +28,7 @@ sinkyShip.on('connection', (socket) => {
     let payload = new game.GameObject();
     payload.playerBoard = new game.Normal();
     payload.computerBoard = new game.Normal();
+    payload.displayBoard = hub.displayGridGenerator();
     payload.computerBoard.player = 'Computer';
     ships.forEach(ship => {
       hub.computerShips(payload.computerBoard, ship);
@@ -84,7 +85,7 @@ sinkyShip.on('connection', (socket) => {
     else {
       setTimeout(() => {
         socket.emit('guess', payload);
-      }, Math.random() * 1000 + 1000);
+      }, 2000);
     }
   });
 });
