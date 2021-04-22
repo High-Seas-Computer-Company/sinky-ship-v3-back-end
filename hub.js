@@ -24,6 +24,7 @@ sinkyShip.on('connection', (socket) => {
   socket.on('new-game', () => {
     console.log('just heard new game');
     const ships = hub.createShips();
+    const playerships = hub.createShips();
     let payload = new game.GameObject();
     payload.playerBoard = new game.Normal();
     payload.computerBoard = new game.Normal();
@@ -35,51 +36,56 @@ sinkyShip.on('connection', (socket) => {
     ships.forEach(ship => {
       payload[ship.name] = ship;
     });
+    // Generates a board of randomly placed ships for the player
+    playerships.forEach(ship => {
+      hub.computerShips(payload.playerBoard, ship);
+    });
     // socket.emit('game-setup1', payload);
     socket.emit('guess', payload);
   });
 
-  socket.on('setup-complete1', (payload) => {
-    socket.emit('game-setup2', payload);
-  });
+  // socket.on('setup-complete1', (payload) => {
+  //   socket.emit('game-setup2', payload);
+  // });
 
-  socket.on('setup-complete2', (payload) => {
-    socket.emit('game-setup3', payload);
-  });
+  // socket.on('setup-complete2', (payload) => {
+  //   socket.emit('game-setup3', payload);
+  // });
 
-  socket.on('setup-complete3', (payload) => {
-    socket.emit('game-setup4', payload);
-  });
+  // socket.on('setup-complete3', (payload) => {
+  //   socket.emit('game-setup4', payload);
+  // });
 
-  socket.on('setup-complete4', (payload) => {
-    socket.emit('game-setup5', payload);
-  });
+  // socket.on('setup-complete4', (payload) => {
+  //   socket.emit('game-setup5', payload);
+  // });
 
-  socket.on('setup-complete5', (payload) => {
-    socket.emit('guess', payload);
-  });
+  // socket.on('setup-complete5', (payload) => {
+  //   socket.emit('guess', payload);
+  // });
 
   socket.on('response', (payload) => {
     console.log('inside response', payload);
     const guess = hub.validateComputerGuess();
     let hitOrMiss = hub.checkBoard(payload.playerBoard, guess);
     payload.computerGuess = hitOrMiss.status;
-    // if (hub.winChecker(payload.playerBoard.size)) {
-    //   payload.winner = 'Computer';
-    //   socket.emit('game-over', payload);
-    // }
+    if (hub.winChecker(payload.playerBoard.size)) {
+      payload.winner = 'Computer';
+      socket.emit('game-over', payload);
+    }
     if (hub.winChecker(payload.computerBoard.size)) {
       console.log('Player win condition');
       payload.winner = 'Player 1';
       socket.emit('game-over', payload);
-    } else {
-      socket.emit('guess', payload);
-    }
+    } 
     // else {
-    //   setTimeout(() => {
-    //     socket.emit('guess', payload);
-    //   }, Math.random() * 3000 + 1000);
+    //   socket.emit('guess', payload);
     // }
+    else {
+      setTimeout(() => {
+        socket.emit('guess', payload);
+      }, Math.random() * 1000 + 1000);
+    }
   });
 });
 
