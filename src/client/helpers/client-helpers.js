@@ -203,6 +203,15 @@ function initialCoordinateCheck(board, value) {
   }
 }
 
+function displayGridGenerator() {
+  const displayArray = [];
+
+  for(let i = 0 ; i = 99 ; i++) {
+    displayArray[i] = 'teal';
+  }
+  return displayArray;
+}
+
 module.exports = {
   printFiglet,
   displayShipHorizontal,
@@ -211,4 +220,5 @@ module.exports = {
   displayBoard,
   checkBoard,
   initialCoordinateCheck,
+  displayGridGenerator,
 };
