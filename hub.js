@@ -85,7 +85,7 @@ sinkyShip.on('connection', (socket) => {
     else {
       setTimeout(() => {
         socket.emit('guess', payload);
-      }, 2000);
+      }, 100);
     }
   });
 });
