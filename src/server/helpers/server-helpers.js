@@ -175,7 +175,7 @@ function displayShipUp(start, direction, gameboard, ship) {
 }
 
 function winChecker(gameboard) {
-  console.log('Inside winChecker function', gameboard);
+  // console.log('Inside winChecker function', gameboard);
   for (let i = 0; i < gameboard.length; i++) {
     if (!gameboard[i].includes('$')) {
       continue;
@@ -226,7 +226,7 @@ function displayGridGenerator() {
   const displayArray = [];
 
   for(let i = 0 ; i < 100 ; i++) {
-    displayArray[i] = { name: i, value: 'blue'};
+    displayArray[i] = { name: i, value: '#286c9c'};
   }
   return displayArray;
 }
