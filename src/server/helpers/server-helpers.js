@@ -226,7 +226,7 @@ function displayGridGenerator() {
   const displayArray = [];
 
   for(let i = 0 ; i < 100 ; i++) {
-    displayArray[i] = 'blue';
+    displayArray[i] = { name: i, value: 'blue'};
   }
   return displayArray;
 }
