@@ -9,8 +9,8 @@ const figlet = require('figlet');
 const help = require('./helpers/client-helpers.js');
 
 
-// const sinkyShipUrl = 'https://sinky-ship.herokuapp.com/sinky-ship';
-const sinkyShipUrl = 'http://localhost:3000';
+const sinkyShipUrl = 'https://sinky-ship-v3.herokuapp.com/';
+//const sinkyShipUrl = 'http://localhost:3000';
 
 const sinkyShipServer = socketio.connect(sinkyShipUrl);
 
