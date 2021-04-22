@@ -19,7 +19,7 @@ io.on('connection', socket => {
 
 sinkyShip.on('connection', (socket) => {
   console.log('New connection : ' + socket.id);
-  
+
 
   socket.on('new-game', () => {
     console.log('just heard new game');
@@ -64,18 +64,19 @@ sinkyShip.on('connection', (socket) => {
     const guess = hub.validateComputerGuess();
     let hitOrMiss = hub.checkBoard(payload.playerBoard, guess);
     payload.computerGuess = hitOrMiss.status;
-    if (hub.winChecker(payload.playerBoard.size)) {
-      payload.winner = 'Computer';
-      socket.emit('game-over', payload);
-    }
-    else if (hub.winChecker(payload.computerBoard.size)) {
+    // if (hub.winChecker(payload.playerBoard.size)) {
+    //   payload.winner = 'Computer';
+    //   socket.emit('game-over', payload);
+    // }
+    if (hub.winChecker(payload.computerBoard.size)) {
       payload.winner = 'Player 1';
       socket.emit('game-over', payload);
-    } else {
-      setTimeout(() => {
-        socket.emit('guess', payload);
-      }, Math.random() * 3000 + 1000);
     }
+    // else {
+    //   setTimeout(() => {
+    //     socket.emit('guess', payload);
+    //   }, Math.random() * 3000 + 1000);
+    // }
   });
 });
 
