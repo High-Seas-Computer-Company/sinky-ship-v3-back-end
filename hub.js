@@ -79,14 +79,14 @@ sinkyShip.on('connection', (socket) => {
       payload.winner = 'Player 1';
       socket.emit('game-over', payload);
     } 
-    // else {
-    //   socket.emit('guess', payload);
-    // }
     else {
-      setTimeout(() => {
-        socket.emit('guess', payload);
-      }, 100);
+      socket.emit('guess', payload);
     }
+    // else {
+    //   setTimeout(() => {
+    //     socket.emit('guess', payload);
+    //   }, 100);
+    // }
   });
 });
 
