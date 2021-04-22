@@ -222,6 +222,16 @@ function createShips(){
   return [galleon, fleut, brigantine, sloop, schooner];
 }
 
+function displayGridGenerator() {
+  const displayArray = [];
+
+  for(let i = 0 ; i < 100 ; i++) {
+    displayArray[i] = 'teal';
+  }
+  return displayArray;
+}
+
+
 module.exports = {
   computerShips,
   generateComputerGuess,
@@ -234,5 +244,6 @@ module.exports = {
   checkBoard,
   initialCoordinateCheck,
   createShips,
+  displayGridGenerator,
 };
 
