@@ -69,6 +69,7 @@ sinkyShip.on('connection', (socket) => {
     //   socket.emit('game-over', payload);
     // }
     if (hub.winChecker(payload.computerBoard.size)) {
+      console.log('Player win condition');
       payload.winner = 'Player 1';
       socket.emit('game-over', payload);
     } else {
