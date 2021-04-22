@@ -175,6 +175,7 @@ function displayShipUp(start, direction, gameboard, ship) {
 }
 
 function winChecker(gameboard) {
+  console.log('Inside winChecker function', gameboard);
   for (let i = 0; i < gameboard.length; i++) {
     if (!gameboard[i].includes('$')) {
       continue;
