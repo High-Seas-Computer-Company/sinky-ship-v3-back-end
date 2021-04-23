@@ -6,22 +6,29 @@ const io = socketio(process.env.PORT);
 
 const game = require('./src/server/game.js');
 const hub = require('./src/server/helpers/server-helpers.js');
-const sinkyShip = io.of('/sinky-ship');
+const sinkyShip = io.of('/');
 
 
 io.on('connection', socket => {
   console.log('New connection created : ' + socket.id);
+
+  socket.on('new-game', () => {
+    console.log('heard new game in io');
+  });
 });
 
 sinkyShip.on('connection', (socket) => {
   console.log('New connection : ' + socket.id);
-  
+
 
   socket.on('new-game', () => {
+    // console.log('just heard new game');
     const ships = hub.createShips();
+    const playerships = hub.createShips();
     let payload = new game.GameObject();
     payload.playerBoard = new game.Normal();
     payload.computerBoard = new game.Normal();
+    payload.displayBoard = hub.displayGridGenerator();
     payload.computerBoard.player = 'Computer';
     ships.forEach(ship => {
       hub.computerShips(payload.computerBoard, ship);
@@ -30,30 +37,36 @@ sinkyShip.on('connection', (socket) => {
     ships.forEach(ship => {
       payload[ship.name] = ship;
     });
-    socket.emit('game-setup1', payload);
-  });
-
-  socket.on('setup-complete1', (payload) => {
-    socket.emit('game-setup2', payload);
-  });
-
-  socket.on('setup-complete2', (payload) => {
-    socket.emit('game-setup3', payload);
-  });
-
-  socket.on('setup-complete3', (payload) => {
-    socket.emit('game-setup4', payload);
-  });
-
-  socket.on('setup-complete4', (payload) => {
-    socket.emit('game-setup5', payload);
-  });
-
-  socket.on('setup-complete5', (payload) => {
+    // Generates a board of randomly placed ships for the player
+    playerships.forEach(ship => {
+      hub.computerShips(payload.playerBoard, ship);
+    });
+    // socket.emit('game-setup1', payload);
     socket.emit('guess', payload);
   });
 
+  // socket.on('setup-complete1', (payload) => {
+  //   socket.emit('game-setup2', payload);
+  // });
+
+  // socket.on('setup-complete2', (payload) => {
+  //   socket.emit('game-setup3', payload);
+  // });
+
+  // socket.on('setup-complete3', (payload) => {
+  //   socket.emit('game-setup4', payload);
+  // });
+
+  // socket.on('setup-complete4', (payload) => {
+  //   socket.emit('game-setup5', payload);
+  // });
+
+  // socket.on('setup-complete5', (payload) => {
+  //   socket.emit('guess', payload);
+  // });
+
   socket.on('response', (payload) => {
+    // console.log('inside response', payload);
     const guess = hub.validateComputerGuess();
     let hitOrMiss = hub.checkBoard(payload.playerBoard, guess);
     payload.computerGuess = hitOrMiss.status;
@@ -61,14 +74,19 @@ sinkyShip.on('connection', (socket) => {
       payload.winner = 'Computer';
       socket.emit('game-over', payload);
     }
-    else if (hub.winChecker(payload.computerBoard.size)) {
+    if (hub.winChecker(payload.computerBoard.size)) {
+      // console.log('Player win condition');
       payload.winner = 'Player 1';
       socket.emit('game-over', payload);
-    } else {
-      setTimeout(() => {
-        socket.emit('guess', payload);
-      }, Math.random() * 3000 + 1000);
+    } 
+    else {
+      socket.emit('guess', payload);
     }
+    // else {
+    //   setTimeout(() => {
+    //     socket.emit('guess', payload);
+    //   }, 100);
+    // }
   });
 });
 

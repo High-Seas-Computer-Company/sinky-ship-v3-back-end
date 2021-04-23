@@ -175,6 +175,7 @@ function displayShipUp(start, direction, gameboard, ship) {
 }
 
 function winChecker(gameboard) {
+  // console.log('Inside winChecker function', gameboard);
   for (let i = 0; i < gameboard.length; i++) {
     if (!gameboard[i].includes('$')) {
       continue;
@@ -221,6 +222,16 @@ function createShips(){
   return [galleon, fleut, brigantine, sloop, schooner];
 }
 
+function displayGridGenerator() {
+  const displayArray = [];
+
+  for(let i = 0 ; i < 100 ; i++) {
+    displayArray[i] = { name: i, value: '#286c9c'};
+  }
+  return displayArray;
+}
+
+
 module.exports = {
   computerShips,
   generateComputerGuess,
@@ -233,5 +244,6 @@ module.exports = {
   checkBoard,
   initialCoordinateCheck,
   createShips,
+  displayGridGenerator,
 };
 
